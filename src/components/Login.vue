@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-11 17:57:36
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-11 21:24:35
+ * @LastEditTime : 2022-01-12 15:14:59
  * @FilePath     : \\src\\components\\Login.vue
  * 加油
 -->
@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import request from '../utils/request.js'
 const handleClick = () => {
   request({
@@ -24,6 +24,6 @@ const handleClick = () => {
 }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 
 </style>
