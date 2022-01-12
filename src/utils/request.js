@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-11 19:08:03
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-11 21:53:18
+ * @LastEditTime : 2022-01-12 11:02:49
  * @FilePath     : \\src\\utils\\request.js
  * @加油
  */
@@ -24,7 +24,7 @@ const service = Axios.create({
 // request interceptor
 service.interceptors.request.use(
   (request) => {
-    // TODO JWT TOKEN
+    // TODO: JWT
     return request
   },
   (error) => {
@@ -61,3 +61,12 @@ service.interceptors.response.use(
 )
 
 export default service
+
+
+// export default (url, method, submitData) => {
+//   return service({
+//     url,
+//     method,
+//     [method.toLowerCase() === 'get' ? 'params' : 'data']: submitData
+//   })
+// }

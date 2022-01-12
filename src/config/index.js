@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-11 18:08:45
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-11 21:26:34
+ * @LastEditTime : 2022-01-12 11:30:17
  * @FilePath     : \\src\\config\\index.js
  * @加油
  */
@@ -27,5 +27,6 @@ const EnvConfig = {
 export default {
   ENV,
   MOCK: true,
-  ...EnvConfig[ENV]
+  ...EnvConfig[ENV],
+  NAMESPACE: 'vue3-admin'
 }
