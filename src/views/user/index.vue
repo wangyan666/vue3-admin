@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-12 16:04:16
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-17 23:19:24
+ * @LastEditTime : 2022-01-22 13:21:20
  * @FilePath     : \\src\\views\\user\\index.vue
  * 加油
 -->
@@ -21,7 +21,7 @@
         </el-form-item>
         <el-form-item>
           <el-input
-            v-model="filterData.userName"
+            v-model="filterData.username"
             placeholder="请输入用户名称"
           ></el-input>
         </el-form-item>
@@ -51,6 +51,7 @@
       </template>
 
       <el-table
+        ref="tableRef"
         :data="userList.list"
         class="user-table"
         max-height="350"
@@ -86,6 +87,7 @@
         layout="prev, pager, next"
         :total="userList.totalPageNumber"
         :page-size="filterData.pageSize"
+        :current-page="filterData.pageNum"
         @current-change="handlePageChange"
       />
     </el-card>
@@ -115,8 +117,8 @@ export default {
 // 用户列表筛选条件
 const filterData = reactive({
   userId: '',
-  userName: '',
-  state: 1,
+  username: '',
+  state: 0,
   pageNum: 1,
   pageSize: 10
 })
@@ -131,11 +133,11 @@ const userList = reactive({
 const columns = [
   {
     label: '用户ID',
-    prop: 'userId'
+    prop: 'id'
   },
   {
     label: '用户名称',
-    prop: 'userName'
+    prop: 'username'
   },
   {
     label: '邮箱',
@@ -156,17 +158,17 @@ const columns = [
     }
   },
   {
+    label: '最后更新时间',
+    prop: 'updateTime'
+    // formatter: (_row, _column, value) => {
+    //   return
+    // }
+  },
+  {
     label: '注册时间',
     prop: 'createTime'
     // formatter: (_row, _column, value) => {
     //   return value.format("yyyy-MM-dd hh:mm:ss")
-    // }
-  },
-  {
-    label: '最后登录时间',
-    prop: 'lastLoginTime'
-    // formatter: (_row, _column, value) => {
-    //   return
     // }
   }
 ]
@@ -178,10 +180,12 @@ const dialogVisible = ref(false)
 const { getUserList } = useGetUserList(userList)
 getUserList()
 
-// 条件筛选数据
+// 条件筛选数据、重置筛选条件、分页
+const tableRef = ref(null) // 用于使分页后table滚动条复原
 const { handleFilter, handleReset, handlePageChange } = useUserListFilter(
   userList,
-  filterData
+  filterData,
+  tableRef
 )
 
 // 编辑数据

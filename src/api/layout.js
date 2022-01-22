@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-17 15:25:08
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-19 14:41:30
+ * @LastEditTime : 2022-01-21 15:58:26
  * @FilePath     : \\src\\api\\layout.js
  * @加油
  */
@@ -34,6 +34,6 @@ export const findDepartmentList = () => {
   return request({
     url: 'layout/departmentList',
     method: 'get',
-    mock: true
+    mock: false
   })
 }

@@ -4,13 +4,13 @@
  * @Author       : wy
  * @Date         : 2022-01-16 15:01:54
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-17 11:52:05
+ * @LastEditTime : 2022-01-21 18:18:28
  * @FilePath     : \\src\\views\\user\\composibles\\useUserListFilter.js
  * @加油
  */
 import useGetUserList from './useGetUserList.js'
 
-export default (userList, filterData) => {
+export default (userList, filterData, tableRef) => {
   const { getUserList } = useGetUserList(userList)
 
   // 筛选数据
@@ -22,12 +22,14 @@ export default (userList, filterData) => {
   const handleReset = () => {
     ;(filterData.userId = ''),
       (filterData.userName = ''),
-      (filterData.state = 1),
+      (filterData.state = 0),
       (filterData.pageNum = 1)
   }
   // 切换分页事件
   const handlePageChange = (currentPageNum) => {
     filterData.pageNum = currentPageNum
+    // document.getElementsByClassName('el-table__body-wrapper')[0].scrollTop = 0
+    tableRef.value.layout.table.refs.tableWrapper.childNodes[0].childNodes[2].scrollTop = 0
     getUserList(filterData)
   }
 

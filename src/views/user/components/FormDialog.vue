@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-17 11:44:19
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-19 17:17:25
+ * @LastEditTime : 2022-01-22 13:03:18
  * @FilePath     : \\src\\views\\user\\components\\FormDialog.vue
  * 加油
 -->
@@ -17,9 +17,9 @@
     width="40%"
   >
     <el-form ref="formRef" :model="userForm" :rules="rules" label-width="80px">
-      <el-form-item label="用户名" prop="userName">
+      <el-form-item label="用户名" prop="username">
         <el-input
-          v-model="userForm.userName"
+          v-model="userForm.username"
           placeholder="请输入用户名称"
           :disabled="disabled"
         ></el-input>
@@ -72,7 +72,7 @@
           v-model="userForm.department"
           popper-class="select"
           :options="departmentList"
-          :props="{ value: '_id', label: 'deptName' }"
+          :props="{ value: 'id', label: 'departmentName' }"
           clearable
         ></el-cascader>
       </el-form-item>
@@ -114,7 +114,7 @@ const emits = defineEmits(['update:dialogVisible', 'update:userList'])
 
 // 定义表单数据
 const userForm = reactive({
-  userName: '',
+  username: '',
   Email: '',
   Tel: '',
   state: 3,
@@ -125,7 +125,7 @@ const userForm = reactive({
 
 // 定义表单校验规则
 const rules = reactive({
-  userName: [
+  username: [
     {
       required: true,
       message: '请输入用户名称',
@@ -176,6 +176,7 @@ findRoleList().then((res) => {
 // 获取部门列表
 const departmentList = ref([])
 findDepartmentList().then((res) => {
+  // console.log(res)
   departmentList.value = res.data
 })
 

@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-13 11:48:37
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-19 16:46:17
+ * @LastEditTime : 2022-01-20 14:11:04
  * @FilePath     : \\src\\api\\user.js
  * @加油
  */
@@ -27,7 +27,7 @@ export const FindUserList = (params) => {
     url: '/user/list',
     method: 'get',
     params,
-    mock: true
+    mock: false
   })
 }
 
