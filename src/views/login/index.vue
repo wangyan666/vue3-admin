@@ -3,10 +3,11 @@
     <div class="modal">
       <el-form ref="formRef" :model="form" :rules="rules" size="large">
         <div class="title">登录</div>
-        <el-form-item prop="userName">
+        <el-form-item prop="username">
           <el-input
             class="account"
-            v-model="form.userName"
+            v-model="form.username"
+            autocomplete="off"
             type="text"
             status-icon
             :prefix-icon="User"
@@ -15,6 +16,7 @@
         <el-form-item prop="password">
           <el-input
             v-model="form.password"
+            autocomplete="off"
             type="password"
             :prefix-icon="View"
           ></el-input>
@@ -35,19 +37,19 @@ export default {
 }
 </script>
 <script setup>
-import useValidate from './composibles/useValidate.js'
+import useSubmit from './composibles/useSubmit.js'
 import { View, User } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 
 const formRef = ref(null)
 
 const form = reactive({
-  userName: '',
+  username: '',
   password: ''
 })
-
+// 定义校验规则
 const rules = reactive({
-  userName: [
+  username: [
     {
       required: true,
       message: '请输入用户名',
@@ -68,8 +70,8 @@ const rules = reactive({
     }
   ]
 })
-
-const { submitForm } = useValidate()
+// 校验数据并提交
+const { submitForm } = useSubmit()
 </script>
 
 <style scoped lang="scss">
