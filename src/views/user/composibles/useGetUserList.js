@@ -10,6 +10,8 @@ export default (userList) => {
     FindUserList(params).then((res) => {
       userList.list = res.data.list
       userList.totalPageNumber = res.data.count
+    }).catch((error) => {
+      console.log(error)
     })
   }
 

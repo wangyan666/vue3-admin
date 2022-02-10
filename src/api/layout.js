@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-17 15:25:08
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-21 15:58:26
+ * @LastEditTime : 2022-01-24 13:35:06
  * @FilePath     : \\src\\api\\layout.js
  * @加油
  */
@@ -14,9 +14,9 @@ import request from '@/utils/request.js'
 // 获取菜单
 export const findMenuList = () => {
   return request({
-    url: 'layout/menuList',
+    url: 'layout/menu',
     method: 'get',
-    mock: true
+    mock: false
   })
 }
 

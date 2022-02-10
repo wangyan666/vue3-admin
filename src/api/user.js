@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-13 11:48:37
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-20 14:11:04
+ * @LastEditTime : 2022-02-08 11:50:28
  * @FilePath     : \\src\\api\\user.js
  * @加油
  */
@@ -43,14 +43,14 @@ export const getNoticeCount = () => {
 export const deleteUser = (data) => {
   if (data instanceof Array) {
     return request({
-      url: `users`,
+      url: `/user`,
       method: 'delete',
       data
     })
   }
   //
   return request({
-    url: `users/${data}`,
+    url: `/user/${data}`,
     method: 'delete'
   })
 }
@@ -58,8 +58,17 @@ export const deleteUser = (data) => {
 // 新建用户
 export const createUser = (data) => {
   return request({
-    url: 'users',
+    url: '/user',
     method: 'post',
+    data
+  })
+}
+
+// 更新用户信息
+export const updateUser = (id, data) => {
+  return request({
+    url: `/user/${id}`,
+    method: 'patch',
     data
   })
 }

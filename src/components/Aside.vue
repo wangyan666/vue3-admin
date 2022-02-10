@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-13 20:26:06
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-18 14:18:56
+ * @LastEditTime : 2022-02-10 11:21:14
  * @FilePath     : \\src\\components\\Aside.vue
  * 加油
 -->
@@ -16,9 +16,10 @@
     </div>
     <!-- caidan -->
     <el-menu
-      class="el-menu"
-      :default-active="activeMenuItem"
+      class="menu"
+      :default-active="route.path"
       router
+      unique-opened	
       text-color="#fff"
       background-color="#3c40c6"
       :collapse="isFold"
@@ -36,13 +37,13 @@ export default {
 }
 </script>
 <script setup>
-import { findMenuList } from '../api/layout'
+import { useMenuStore } from '../store/menu';
 import TreeMenu from './TreeMenu.vue'
-import {
-  Menu as IconMenu,
-  Setting,
-} from '@element-plus/icons-vue'
-import { ref } from 'vue'
+
+import { computed, onUnmounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
+import { useUserStore } from '../store/user';
+import { useRoleStore } from '../store/roles';
 const emit = defineEmits(['change-fold'])
 let isFold = ref(false)
 const toggleFold = () => {
@@ -50,13 +51,20 @@ const toggleFold = () => {
   emit('change-fold', isFold.value)
 }
 
-const activeMenuItem = ref(location.hash.slice(1))
+const route = useRoute()
 
 // 获取菜单渲染数据
-let menuList = ref([])
-findMenuList().then((res) => {
-  menuList.value = res.data
-})
+let menuList = []
+const menuStore = useMenuStore()
+const userStore = useUserStore()
+menuStore.getMenu()
+if(userStore.userInfo.level === 0) { // 0：管理员, 加载全部菜单
+  menuList = computed(() => menuStore.menuList)
+} else {
+  // menuStore.getPermissionMenu(userStore.userInfo.roles)
+  menuList = computed(() => menuStore.permissionMenuList)
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -74,7 +82,7 @@ findMenuList().then((res) => {
   &.unfold {
     width: 200px;
   }
-  .el-menu{
+  .menu{
     border-right: none;
     user-select: none;
   }

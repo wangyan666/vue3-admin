@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-12 16:04:16
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-22 13:21:20
+ * @LastEditTime : 2022-01-24 16:05:38
  * @FilePath     : \\src\\views\\user\\index.vue
  * 加油
 -->
@@ -87,8 +87,7 @@
         layout="prev, pager, next"
         :total="userList.totalPageNumber"
         :page-size="filterData.pageSize"
-        :current-page="filterData.pageNum"
-        @current-change="handlePageChange"
+        v-model:current-page="filterData.pageNum"
       />
     </el-card>
     <!-- dialog -->
@@ -182,7 +181,7 @@ getUserList()
 
 // 条件筛选数据、重置筛选条件、分页
 const tableRef = ref(null) // 用于使分页后table滚动条复原
-const { handleFilter, handleReset, handlePageChange } = useUserListFilter(
+const { handleFilter, handleReset } = useUserListFilter(
   userList,
   filterData,
   tableRef
@@ -203,7 +202,7 @@ const { handleSelectionChange, handleDeleteBatch, handleDeleteOne } =
 
 // 处理子组件发送的事件
 // 子组件新增用户后，需更新用户列表 
-const UpdateUserList = () => getUserList()
+const UpdateUserList = () => getUserList(filterData)
 
 </script>
 

@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-16 16:54:21
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-17 14:45:35
+ * @LastEditTime : 2022-01-23 11:12:52
  * @FilePath     : \\src\\views\\user\\composibles\\useDeleteUserList.js
  * @加油
  */
@@ -27,7 +27,7 @@ export default (userList, filterData, checkedList) => {
 
   // 删除单个用户
   const handleDeleteOne = (row) => {
-    deleteAndFetch(row.userId)
+    deleteAndFetch(row.id)
   }
 
   // 批量删除
@@ -45,7 +45,7 @@ export default (userList, filterData, checkedList) => {
 
   // 监听多选框
   const handleSelectionChange = (list) => {
-    checkedList.value = list.map((item) => item.userId)
+    checkedList.value = list.map((item) => item.id)
   }
 
   return {

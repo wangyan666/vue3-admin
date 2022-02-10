@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-14 18:32:53
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-19 13:04:41
+ * @LastEditTime : 2022-02-10 12:23:44
  * @FilePath     : \\src\\components\\AppNav.vue
  * 加油
 -->
@@ -18,7 +18,7 @@
           </el-badge>
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
-              {{ userInfo.userName}}
+              {{ userInfo.username}}
               <el-icon class="el-icon--right"><arrow-down /></el-icon>
             </span>
             <template #dropdown>
@@ -44,19 +44,22 @@ export default {
 </script>
 <script setup >
 import BreadCrumb from './BreadCrumb.vue'
-// import { getNoticeCount } from '../api/user'
-import { ArrowDown, Bell } from '@element-plus/icons-vue'
 import { useUserStore } from '../store/user'
 import { useRouter } from 'vue-router'
 import { computed, ref } from 'vue'
+import { useMenuStore } from '../store/menu'
 const router = useRouter()
 const userStore = useUserStore()
+const menuStore = useMenuStore()
 
 const userInfo = computed(() => userStore.$state.userInfo)
 const handleCommand = (command) => {
   if (command === 'log-out') {
     userStore.$patch((state) => {
       state.userInfo = {}
+    })
+    menuStore.$patch((state) => {
+      state.routesLoaded = false
     })
     router.push('/login')
   }

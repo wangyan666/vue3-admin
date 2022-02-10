@@ -4,7 +4,7 @@
  * @Author       : wy
  * @Date         : 2022-01-17 11:44:19
  * @LastEditors  : wy
- * @LastEditTime : 2022-01-22 13:03:18
+ * @LastEditTime : 2022-02-10 12:01:49
  * @FilePath     : \\src\\views\\user\\components\\FormDialog.vue
  * 加油
 -->
@@ -57,23 +57,23 @@
           popper-class="select"
           multiple
           clearable
-          style="width: 70%"
+          style="width: 60%"
         >
           <el-option
             v-for="role in roleList"
             :key="role.id"
-            :value="role.roleName"
+            :value="role.id"
             :label="role.roleName"
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="部门" prop="department">
+      <el-form-item label="部门" prop="department" >
         <el-cascader
           v-model="userForm.department"
-          popper-class="select"
           :options="departmentList"
           :props="{ value: 'id', label: 'departmentName' }"
-          clearable
+          placeholder="请选择所属部门"
+          style="width: 60%"
         ></el-cascader>
       </el-form-item>
     </el-form>
@@ -87,13 +87,13 @@
 
 <script>
 export default {
-  name: 'CreateForm'
+  name: 'FormDialog'
 }
 </script>
 <script setup>
 import { nextTick, reactive, ref, watch } from 'vue'
 import { findDepartmentList, findRoleList } from '../../../api/layout'
-import { createUser } from '../../../api/user'
+import { createUser, updateUser } from '../../../api/user'
 import useValidate from '../../../hooks/useValidate'
 // props
 const props = defineProps({
@@ -120,10 +120,11 @@ const userForm = reactive({
   state: 3,
   job: '',
   roles: [],
-  department: []
+  department: null
 })
 
 // 定义表单校验规则
+//#region 
 const rules = reactive({
   username: [
     {
@@ -158,6 +159,13 @@ const rules = reactive({
       trigger: 'blur'
     }
   ],
+  roles: [
+    {
+      required: true,
+      message: '请选择系统角色',
+      trigger: 'change'
+    }
+  ],
   department: [
     {
       required: true,
@@ -166,39 +174,47 @@ const rules = reactive({
     }
   ]
 })
+//#endregion
 
-// 获取角色列表
+// 获取角色列表模板
 const roleList = ref([])
 findRoleList().then((res) => {
   roleList.value = res.data
 })
 
-// 获取部门列表
+// 获取部门列表模板
 const departmentList = ref([])
 findDepartmentList().then((res) => {
-  // console.log(res)
   departmentList.value = res.data
 })
 
-// 新增用户：steps: 1.校验表单, 2.发送请求, 3，通知父组件刷新用户列表
+// 新增/更新用户：steps: 1.校验表单, 2.发送请求, 3，通知父组件刷新用户列表
 const formRef = ref(null)
 const { validateForm } = useValidate()
 const handleSubmit = (formRef) => {
   if (validateForm(formRef)) {
-    createUser(userForm).then(() => {
+    if (disabled.value) {
+      updateUser(props.editedRow.id, userForm).then(() => {
       ElMessage({ message: '操作成功', type: 'success' })
       emits('update:dialogVisible') // 
       emits('update:userList') // 更新用户列表
     })
+    } else {
+      createUser(userForm).then(() => {
+      ElMessage({ message: '操作成功', type: 'success' })
+      emits('update:dialogVisible') // 
+      emits('update:userList') // 更新用户列表
+    })
+    }
   }
 }
 
-// 定义某些域的disabled
+// 定义某些域的disabled，编辑状态下某些域应禁用，同时该值也可作为区分编辑和新增状态的标示
 const disabled = ref(false)
-// 监听父组件的编辑事件 steps: 1 => 渲染表单数据 2 => 设置disabled = true
+// 监听父组件的编辑事件 steps: 1 => 渲染表单数据 2 => 设置disabled = true  3 => 发送请求，提交更新
 watch(() => props.editedRow.flag, () => {
   disabled.value = true
-  nextTick(() => Object.assign(userForm, props.editedRow))
+  nextTick(() => Object.assign(userForm, props.editedRow)) 
 }
 )
 
@@ -210,7 +226,7 @@ const handleClosed = (formRef) => {
 </script>
 
 <style scoped lang="scss">
-// 选择框被dialog覆盖，需增加z-index
-// .select	{
-// }
+:deep(.el-cascader) {
+  width: 60%;
+}
 </style>
